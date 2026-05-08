@@ -1,8 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List, com.library.bean.Book" %>
-<%@ include file="../header.jsp"%>
 <html>
-<head><title>图书查询</title>
+<head>
+    <meta charset="UTF-8">
+    <title>图书查询</title>
+    <style>
+        .header { background: #001529; color: white; padding: 10px 20px; display: flex; justify-content: space-between; }
+        .header a { color: white; margin-right: 15px; text-decoration: none; }
+        .header .right { margin-left: auto; }
+    </style>
     <script>
         function sortBy(col) {
             let params = new URLSearchParams(window.location.search);
@@ -13,6 +19,7 @@
     </script>
 </head>
 <body>
+<%@ include file="../header.jsp"%>
 <h2>图书检索</h2>
 <form action="${pageContext.request.contextPath}/book/search" method="get">
     书名：<input type="text" name="title" value="${qTitle}">

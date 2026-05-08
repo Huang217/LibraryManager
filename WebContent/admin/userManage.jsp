@@ -1,9 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List, com.library.bean.User" %>
-<%@ include file="../header.jsp"%>
 <html>
-<head><title>用户管理</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <style>
+        .header { background: #001529; color: white; padding: 10px 20px; display: flex; justify-content: space-between; }
+        .header a { color: white; margin-right: 15px; text-decoration: none; }
+        .header .right { margin-left: auto; }
+    </style>
+</head>
 <body>
+<%@ include file="../header.jsp"%>
 <h2>用户列表</h2>
 <table border="1" cellpadding="5">
     <tr><th>ID</th><th>用户名</th><th>角色</th><th>邮箱</th><th>状态</th><th>操作</th></tr>

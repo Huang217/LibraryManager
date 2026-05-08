@@ -1,8 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="../header.jsp"%>
 <html>
-<head><title>添加新书</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>添加新书</title>
+    <style>
+        .header { background: #001529; color: white; padding: 10px 20px; display: flex; justify-content: space-between; }
+        .header a { color: white; margin-right: 15px; text-decoration: none; }
+        .header .right { margin-left: auto; }
+    </style>
+</head>
 <body>
+<%@ include file="../header.jsp"%>
 <h2>添加新书</h2>
 <form action="${pageContext.request.contextPath}/book/add" method="post" enctype="multipart/form-data">
     ISBN：<input type="text" name="isbn" required><br><br>

@@ -24,11 +24,11 @@ public class UserServlet extends HttpServlet {
             int userId = Integer.parseInt(req.getParameter("id"));
             int status = Integer.parseInt(req.getParameter("status"));
             toggleStatus(userId, status);
-            resp.sendRedirect("user/list");
+            resp.sendRedirect("list");   // 修复：改为 "list"
         } else if ("/delete".equals(path)) {
             int userId = Integer.parseInt(req.getParameter("id"));
             deleteUser(userId);
-            resp.sendRedirect("user/list");
+            resp.sendRedirect("list");   // 修复：改为 "list"
         }
     }
 

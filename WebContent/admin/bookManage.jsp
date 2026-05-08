@@ -1,14 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List, com.library.bean.Book" %>
-<%@ include file="../header.jsp"%>
 <html>
-<head><title>图书管理</title>
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+    <style>
+        .header { background: #001529; color: white; padding: 10px 20px; display: flex; justify-content: space-between; }
+        .header a { color: white; margin-right: 15px; text-decoration: none; }
+        .header .right { margin-left: auto; }
+    </style>
     <script>
         function printPage() { window.print(); }
         function exportCSV() { window.location.href='${pageContext.request.contextPath}/book/export'; }
     </script>
 </head>
 <body>
+<%@ include file="../header.jsp"%>
 <h2>图书列表</h2>
 <button onclick="printPage()">网页打印</button>
 <button onclick="exportCSV()">导出 CSV</button>
@@ -38,4 +45,3 @@
 <a href="${pageContext.request.contextPath}/admin/addBook.jsp">添加新书</a>
 </body>
 </html>
-<%-- 需补充 addBook.jsp 和 editBook.jsp，此处省略，可自行添加表单 --%>

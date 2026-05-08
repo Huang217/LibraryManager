@@ -1,9 +1,17 @@
 <%@ page import="java.sql.*, com.library.dao.DBHelper" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="../header.jsp"%>
 <html>
-<head><title>编辑图书</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>编辑图书</title>
+    <style>
+        .header { background: #001529; color: white; padding: 10px 20px; display: flex; justify-content: space-between; }
+        .header a { color: white; margin-right: 15px; text-decoration: none; }
+        .header .right { margin-left: auto; }
+    </style>
+</head>
 <body>
+<%@ include file="../header.jsp"%>
 <%
     int bookId = Integer.parseInt(request.getParameter("id"));
     String title = "", author = "", press = "", category = "", isbn = "";
@@ -33,7 +41,7 @@
     出版社：<input type="text" name="press" value="<%= press %>" required><br><br>
     类别：<input type="text" name="category" value="<%= category %>" required><br><br>
     总册数：<input type="number" name="total" value="<%= total %>" min="1" required><br><br>
-    当前封面：<%= hasCover ? "<a href='" + request.getContextPath() + "/book/cover?id=" + bookId + "'>查看封面</a>" : "无" %>
+    当前封面：<%= hasCover ? "<a href='" + request.getContextPath() + "/book/cover?id=" + bookId + "'>查看封面</a>" : "无" %><br><br>
     更换封面：<input type="file" name="cover" accept="image/*"> （留空则不修改）<br><br>
     <input type="submit" value="保存修改">
     <a href="bookManage.jsp">返回</a>

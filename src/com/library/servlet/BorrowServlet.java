@@ -28,6 +28,8 @@ public class BorrowServlet extends HttpServlet {
             stats(req, resp);
         } else if ("/exportBorrow".equals(path)) {
             exportBorrowCSV(req, resp);
+        } else if ("/adminList".equals(path)) {   // 新增管理员借阅列表
+            adminList(req, resp);
         }
     }
 
@@ -52,7 +54,7 @@ public class BorrowServlet extends HttpServlet {
         String result = DBHelper.callBorrowBook(user.getUserId(), bookId);
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
-        out.println("<script>alert('"+result+"'); window.location.href='" + req.getContextPath() + "/reader/search.jsp';</script>");
+        out.println("<script>alert('"+result+"'); window.location.href='"+ req.getContextPath() + "/book/search';</script>");
     }
 
     private void returnBook(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -60,7 +62,10 @@ public class BorrowServlet extends HttpServlet {
         String result = DBHelper.callReturnBook(borrowId);
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
-        out.println("<script>alert('"+result+"'); window.location.href='my';</script>");
+        // 修复：还书后根据角色跳转，管理员回到借阅管理，读者回到我的借阅
+        User user = (User) req.getSession().getAttribute("user");
+        String redirectUrl = req.getContextPath() + ("admin".equals(user.getRole()) ? "/borrow/adminList" : "/borrow/my");
+        out.println("<script>alert('"+result+"'); window.location.href='"+ redirectUrl +"';</script>");
     }
 
     private void myBorrows(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -91,6 +96,34 @@ public class BorrowServlet extends HttpServlet {
         req.getRequestDispatcher("/reader/myBorrow.jsp").forward(req, resp);
     }
 
+    private void adminList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        if (!"admin".equals(user.getRole())) {
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+        List<Borrow> list = new ArrayList<>();
+        String sql = "SELECT * FROM v_borrow_detail ORDER BY borrow_time DESC";
+        try (Connection conn = DBHelper.getConnection();
+             Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                Borrow b = new Borrow();
+                b.setBorrowId(rs.getLong("borrow_id"));
+                b.setUsername(rs.getString("username"));
+                b.setBookTitle(rs.getString("title"));
+                b.setIsbn(rs.getString("isbn"));
+                b.setBorrowTime(rs.getTimestamp("borrow_time"));
+                b.setReturnTime(rs.getTimestamp("return_time"));
+                b.setState(rs.getString("state"));
+                list.add(b);
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        req.setAttribute("borrows", list);
+        req.getRequestDispatcher("/admin/borrowManage.jsp").forward(req, resp);
+    }
+
     private void stats(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int totalBooks = 0, borrowedCount = 0;
         String catStats = "";
@@ -114,6 +147,7 @@ public class BorrowServlet extends HttpServlet {
     }
 
     private void exportBorrowCSV(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // 权限检查：仅管理员可导出全站数据
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         if (!"admin".equals(user.getRole())) {

@@ -129,7 +129,7 @@ public class BookServlet extends HttpServlet {
             ps.setInt(8, total);
             ps.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
-        resp.sendRedirect("list");
+        resp.sendRedirect("list");   // 修复：改为相对路径 "list"
     }
 
     private void updateBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -163,7 +163,7 @@ public class BookServlet extends HttpServlet {
             ps.setInt(paramIndex, bookId);
             ps.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
-        resp.sendRedirect("list");
+        resp.sendRedirect("list");   // 修复：改为相对路径 "list"
     }
 
     private int getBookTotal(int bookId) {
@@ -185,7 +185,7 @@ public class BookServlet extends HttpServlet {
             ps.setInt(1, bookId);
             ps.executeUpdate();
         } catch (SQLException e) { e.printStackTrace(); }
-        resp.sendRedirect("list");
+        resp.sendRedirect("list");   // 修复：改为相对路径 "list"
     }
 
     private void getCover(HttpServletRequest req, HttpServletResponse resp) throws IOException {
