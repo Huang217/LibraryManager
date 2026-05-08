@@ -1,0 +1,28 @@
+LibraryManager
+├── src/com/library/bean
+│   ├── User.java
+│   ├── Book.java
+│   └── Borrow.java
+├── src/com/library/dao
+│   └── DBHelper.java
+├── src/com/library/servlet
+│   ├── LoginServlet.java
+│   ├── BookServlet.java
+│   ├── UserServlet.java
+│   └── BorrowServlet.java
+├── WebContent
+│   ├── META-INF/MANIFEST.MF
+│   ├── WEB-INF
+│   │   ├── web.xml
+│   │   └── lib (请放入 mysql-connector-java-8.0.xx.jar)
+│   ├── admin
+│   │   ├── bookManage.jsp
+│   │   ├── userManage.jsp
+│   │   └── stats.jsp
+│   ├── reader
+│   │   ├── search.jsp
+│   │   └── myBorrow.jsp
+│   ├── login.jsp
+│   ├── header.jsp
+│   └── error.jsp
+└── database.sql
